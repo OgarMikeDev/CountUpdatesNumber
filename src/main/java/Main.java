@@ -1,42 +1,51 @@
 import java.util.Scanner;
 
 public class Main {
-    static void main() {
-        System.out.println("Введите кол-во изменений:");
-        int countUpdates = new Scanner(System.in).nextInt();
-        System.out.println("Введите число:");
-        int number = new Scanner(System.in).nextInt();
-
+    public static void main(String[] args) {
         /*
         TODO
+         Первой строкой вводится рекомендуемое кол-во изменений.
+         Второй строкой вводится число(сколько угодно чисел через пробел).
+         Цель - изменить все введённые числа столько раз,
+         сколько ввёл пользователь и вывести самое большое.
+         Сколько изменений, столько цифр в числе меняется
          Напр-р,
-         countUpdates - 1,
-         number - 85.
-         1 случай.
-         Т.к. одно изменение, работаем только с 8,
-         т.е. оно превращается в 1(9 - 8) и т.к.
-         является десятой частью,
-         к нему прибавляется 0,
-         т.е. 85 -> 10
+         1
+         85
+         меняем 1 цифру -> 8 -> 9 -> 9 - 8 -> 1
+         т.к. 8 является десятой частью, к 1 добавляем 0.
+         Ответ -> 10
+         2
+         85
+         меняем 1 цифру 8 -> 9 -> 9 - 8 -> 1, + 0 -> 10
+         меняем 2 цифру 5 -> 9 -> 9 - 5 -> 4
+         10 + 4 -> 14
+         Подсказки:
+         String[] arrayTextNumbers = "24 13 24 09".split(" ")
+         Преобразование числа в текст -> 85 -> String.valueOf(85) "85"
+         получение текущего СИМВОЛА -> "85".chatAt(0) -> '8'
+         нюанс -> (int) '8' -> 56,
+         '8' -> String.valueOf('8') "8"
+         Integer.parseInt("8") -> 8
+         "0".repeat(4) -> 0000
+         Условие цикла ->
+         пока текущее кол-во изменений
+         меньше введённого пользователем
          */
-        //TODO Кол-во нулей равно кол-ву символов в числе - 1
-        int countZero = String.valueOf(number).length() - 1;
-        int valueUpdate = 0;
-        for (int actualCountUpdates = 0; actualCountUpdates < countUpdates; actualCountUpdates++) {
-            /*
-            TODO
-             85 -> "85" -> (char) '8' -> "8" -> 8
-             */
-            int firstSymbol = Integer.parseInt(String.valueOf(String.valueOf(number).charAt(actualCountUpdates)));
-            int difference = 9 - firstSymbol;
-            /*
-            TODO
-             1 -> "1" -> "10" -> 10
-             */
-            int endNumber = Integer.parseInt(String.valueOf(difference) + "0".repeat(countZero));
-            valueUpdate += endNumber;
+        System.out.println("Введите кол-во изменений:");
+        int countUpdates = new Scanner(System.in).nextInt();
+        System.out.println("Введите число для изменения:");
+        int inputNumber = new Scanner(System.in).nextInt();
+
+        int countZero = String.valueOf(inputNumber).length() - 1;
+        int sum = 0;
+        for (int currentCountUpdates = 0; currentCountUpdates < countUpdates; currentCountUpdates++) {
+            String textCurrentSymbol = String.valueOf(String.valueOf(inputNumber).charAt(currentCountUpdates));
+            int firstSymbol = 9 - Integer.parseInt(textCurrentSymbol);
+            int endNumber = Integer.parseInt(String.valueOf(firstSymbol) + "0".repeat(countZero));
             countZero--;
+            sum += endNumber;
         }
-        System.out.println("Результат: " + valueUpdate);
+        System.out.println(sum);
     }
 }
